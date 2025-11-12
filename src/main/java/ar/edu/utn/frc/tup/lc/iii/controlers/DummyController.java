@@ -4,10 +4,13 @@ package ar.edu.utn.frc.tup.lc.iii.controlers;
 import ar.edu.utn.frc.tup.lc.iii.dtos.DummyDto;
 import ar.edu.utn.frc.tup.lc.iii.models.Dummy;
 import ar.edu.utn.frc.tup.lc.iii.services.DummyService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,24 +19,34 @@ public class DummyController {
 
     @Autowired
     private DummyService dummyService;
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @GetMapping("/dummy")
-    public ResponseEntity<DummyDto> getDummy(){
-        List<Dummy> dummyList = dummyService.getDummyList();
-        return null;
+    public ResponseEntity <List<DummyDto>> getDummy(){
+        List<DummyDto> dummyDtos = new ArrayList<>();
+         List<Dummy> dummysModels= dummyService.getDummyList();
+
+        for (int i = 0; i < dummysModels.size(); i++) {
+            dummyDtos.add(modelMapper.map(dummysModels.get(i), DummyDto.class));
+        }
+        return ResponseEntity.ok(dummyDtos);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<DummyDto> getDummyList(@PathVariable Long id){
+    public ResponseEntity<Dummy> getDummyList(@PathVariable Long id){
         Dummy dummy = dummyService.getDummy(id);
-        return null;
+        return ResponseEntity.ok(dummy);
     }
 
     @PostMapping("")
-    public ResponseEntity<DummyDto> createDummy(DummyDto dummyDto){
-        Dummy dummy = dummyService.createDummy(null);
-        return null;
-    }
+    public ResponseEntity<Dummy> createDummy(@RequestBody DummyDto dummyDto){
+        Dummy dummy = modelMapper.map(dummyDto, Dummy.class);
+        Dummy saved = dummyService.createDummy(dummy);
+        return ResponseEntity.ok(saved);
+        }
+
+
     @PutMapping("")
     public ResponseEntity<DummyDto> updateDummy(DummyDto dummyDto){
         Dummy dummy = dummyService.updateDummy(null);
