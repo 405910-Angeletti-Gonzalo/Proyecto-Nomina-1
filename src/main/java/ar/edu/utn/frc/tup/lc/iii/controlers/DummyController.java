@@ -48,9 +48,12 @@ public class DummyController {
 
 
     @PutMapping("")
-    public ResponseEntity<DummyDto> updateDummy(DummyDto dummyDto){
-        Dummy dummy = dummyService.updateDummy(null);
-        return null;
+    public ResponseEntity<DummyDto> updateDummy(@RequestBody DummyDto dummyDto){
+
+        Dummy dummy = modelMapper.map(dummyDto, Dummy.class);
+        Dummy tDummy = dummyService.updateDummy(dummy);
+        DummyDto dummyDto1 = modelMapper.map(tDummy, DummyDto.class);
+        return ResponseEntity.ok(dummyDto1);
     }
     @DeleteMapping("")
     public ResponseEntity<DummyDto> deleteDummy(DummyDto dummyDto){

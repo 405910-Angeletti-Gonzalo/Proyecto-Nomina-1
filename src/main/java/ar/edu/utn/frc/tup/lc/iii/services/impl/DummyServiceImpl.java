@@ -50,7 +50,11 @@ private DummyRepository dummyRepository;
 
     @Override
     public Dummy updateDummy(Dummy dummy) {
-        return null;
+        Dummy mDummy = new Dummy();
+        DummyEntitie dummyEntitie = dummyRepository.save(modelMapper.map(dummy, DummyEntitie.class));
+        dummyRepository.save(dummyEntitie);
+        mDummy = modelMapper.map(dummyEntitie, Dummy.class);
+        return mDummy;
     }
 
     @Override
