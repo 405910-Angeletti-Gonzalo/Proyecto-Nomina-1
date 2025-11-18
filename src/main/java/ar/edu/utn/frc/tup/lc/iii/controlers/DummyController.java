@@ -40,8 +40,8 @@ public class DummyController {
         return ResponseEntity.ok(dummyResponse);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Dummy> getDummyList(@PathVariable Long id){
-        Dummy dummy = dummyService.getDummy(id);
+    public ResponseEntity<DummyDto> getDummyList(@PathVariable Long id){
+        DummyDto dummy = modelMapper.map(dummyService.getDummy(id), DummyDto.class);
         return ResponseEntity.ok(dummy);
     }
 
@@ -52,14 +52,13 @@ public class DummyController {
         return ResponseEntity.ok(dummyResponse);
     }
 
-
     @PostMapping("")
-    public ResponseEntity<Dummy> createDummy(@RequestBody DummyDto dummyDto){
+    public ResponseEntity<DummyDto> createDummy(@RequestBody DummyDto dummyDto){
         Dummy dummy = modelMapper.map(dummyDto, Dummy.class);
-        Dummy saved = dummyService.createDummy(dummy);
+        DummyDto saved = modelMapper.map( dummyService.createDummy(dummy), DummyDto.class);
         return ResponseEntity.ok(saved);
-        }
 
+    }
 
     @PutMapping("")
     public ResponseEntity<DummyDto> updateDummy(@RequestBody DummyDto dummyDto){
@@ -69,6 +68,7 @@ public class DummyController {
         DummyDto dummyDto1 = modelMapper.map(tDummy, DummyDto.class);
         return ResponseEntity.ok(dummyDto1);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteDummy(@PathVariable Long id){
         dummyService.deleteDummy(id);
