@@ -14,4 +14,5 @@ public interface DummyService {
     Dummy createDummy (Dummy dummy);
     Dummy updateDummy (Dummy dummy);
     void deleteDummy (Long id);
+    Dummy getByAllDummy (Dummy dummy);
 }

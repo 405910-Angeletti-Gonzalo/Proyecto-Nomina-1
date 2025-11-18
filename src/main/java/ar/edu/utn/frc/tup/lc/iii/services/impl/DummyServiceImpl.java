@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DummyServiceImpl implements DummyService {
@@ -61,5 +62,26 @@ private DummyRepository dummyRepository;
         DummyEntitie dummy = dummyRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El dummy no existe"));
         dummyRepository.delete(dummy);
+    }
+
+    @Override
+    public Dummy getByAllDummy(Dummy dummy) {
+        Long id =  dummy.getId();
+        if (id == null){
+            List<DummyEntitie>  dummyEntities = dummyRepository.findAll();
+            DummyEntitie dummyEntitie;
+            for (int i = 0; i < dummyEntities.size(); i++) {
+                dummyEntitie = dummyEntities.get(i);
+                if (Objects.equals(dummyEntitie.getDummy(), dummy.getDummy())){
+                    dummy.setId(dummyEntitie.getId());
+                }
+            }
+        }
+        else {
+           DummyEntitie dummyEntitie = dummyRepository.findById(id)
+                   .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El dummy id " + id + " no existe"));
+           dummy = modelMapper.map(dummyEntitie, Dummy.class);
+        }
+        return dummy;
     }
 }

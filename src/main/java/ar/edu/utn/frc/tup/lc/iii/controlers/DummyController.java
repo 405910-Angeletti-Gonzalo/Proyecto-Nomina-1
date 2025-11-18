@@ -25,19 +25,26 @@ public class DummyController {
 
     @GetMapping("/dummy")
     public ResponseEntity <List<DummyDto>> getDummy(){
-        List<DummyDto> dummyDtos = new ArrayList<>();
-         List<Dummy> dummysModels= dummyService.getDummyList();
+        List<DummyDto> dummyDto = new ArrayList<>();
+         List<Dummy> dummyModels = dummyService.getDummyList();
 
-        for (int i = 0; i < dummysModels.size(); i++) {
-            dummyDtos.add(modelMapper.map(dummysModels.get(i), DummyDto.class));
+        for (Dummy dummyModel : dummyModels) {
+            dummyDto.add(modelMapper.map(dummyModel, DummyDto.class));
         }
-        return ResponseEntity.ok(dummyDtos);
+        return ResponseEntity.ok(dummyDto);
+    }
+    @GetMapping("")
+    public ResponseEntity<DummyDto> getDummyAll(@RequestBody DummyDto dummyDto){
+        Dummy dummy = dummyService.getByAllDummy(modelMapper.map(dummyDto, Dummy.class));
+        DummyDto dummyResponse = modelMapper.map(dummy, DummyDto.class);
+        return ResponseEntity.ok(dummyResponse);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Dummy> getDummyList(@PathVariable Long id){
         Dummy dummy = dummyService.getDummy(id);
         return ResponseEntity.ok(dummy);
     }
+
 
     @PostMapping("")
     public ResponseEntity<Dummy> createDummy(@RequestBody DummyDto dummyDto){
