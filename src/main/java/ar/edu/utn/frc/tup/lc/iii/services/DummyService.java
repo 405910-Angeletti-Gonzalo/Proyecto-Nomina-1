@@ -15,4 +15,5 @@ public interface DummyService {
     Dummy updateDummy (Dummy dummy);
     void deleteDummy (Long id);
     Dummy getByAllDummy (Dummy dummy);
+    List<Dummy> getDummyFiltered (Dummy dummy);
 }

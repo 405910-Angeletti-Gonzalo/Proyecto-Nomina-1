@@ -45,6 +45,13 @@ public class DummyController {
         return ResponseEntity.ok(dummy);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<DummyDto> getDummyFiltered(@RequestBody DummyDto dummyDto){
+        Dummy dummy = dummyService.getByAllDummy(modelMapper.map(dummyDto, Dummy.class));
+        DummyDto dummyResponse = modelMapper.map(dummy, DummyDto.class);
+        return ResponseEntity.ok(dummyResponse);
+    }
+
 
     @PostMapping("")
     public ResponseEntity<Dummy> createDummy(@RequestBody DummyDto dummyDto){

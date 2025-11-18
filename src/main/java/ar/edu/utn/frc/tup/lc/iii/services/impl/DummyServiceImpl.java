@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -92,5 +93,36 @@ private DummyRepository dummyRepository;
            dummy = modelMapper.map(dummyEntitie, Dummy.class);
         }
         return dummy;
+    }
+
+    @Override
+    public List<Dummy> getDummyFiltered(Dummy dummy) {
+        Long id =  dummy.getId();
+        List<Dummy> dummyListResponse = new ArrayList<>();
+        int aux = 0;
+        if (id == null){
+            List<DummyEntitie>  dummyEntities = dummyRepository.findAll();
+            DummyEntitie dummyEntitie;
+            for (int i = 0; i < dummyEntities.size(); i++) {
+                dummyEntitie = dummyEntities.get(i);
+                if (Objects.equals(dummyEntitie.getDummy(), dummy.getDummy())){
+                    dummyListResponse.add(modelMapper.map(dummyEntitie, Dummy.class));
+                }
+                else {
+                    aux++;
+                }
+            }
+            if (aux == dummyEntities.size()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe un Dummy con dummy '" + dummy.getDummy() +"'");
+            } else {
+                return dummyListResponse;
+            }
+        }
+        else {
+            DummyEntitie dummyEntitie = dummyRepository.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe un Dummy con id " + id));
+            dummy = modelMapper.map(dummyEntitie, Dummy.class);
+            return Collections.singletonList(dummy);
+        }
     }
 }
