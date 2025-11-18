@@ -1,33 +1,51 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Maven / Build
+/target/
+*.jar
+*.war
+*.ear
+*.zip
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IDEs
+.idea/
 *.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# Eclipse (por si acaso)
+.project
+.classpath
+.settings/
+# VS Code
 .vscode/
+# IntelliJ output
+/out/
+
+# SO / temporales
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.log
+logs/
+*.tmp
+*.swp
+*.swo
+
+# Entorno / secretos
+.env
+.env.*
+# Perfiles locales de Spring (ajusta a lo que uses)
+**/application-local.properties
+**/application-local.yml
+
+# Reportes de pruebas y análisis
+/target/surefire-reports/
+/target/failsafe-reports/
+/target/jacoco.exec
+/target/site/jacoco/
+.scannerwork/
+
+# DB embebidas
+*.mv.db
+*.trace.db
+*.db
+
+# Documentación generada automáticamente
+src/JavaDoc/
