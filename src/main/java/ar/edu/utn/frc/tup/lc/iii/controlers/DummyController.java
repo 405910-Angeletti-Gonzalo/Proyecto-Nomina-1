@@ -55,10 +55,10 @@ public class DummyController {
         DummyDto dummyDto1 = modelMapper.map(tDummy, DummyDto.class);
         return ResponseEntity.ok(dummyDto1);
     }
-    @DeleteMapping("")
-    public ResponseEntity<DummyDto> deleteDummy(DummyDto dummyDto){
-        dummyService.deleteDummy(null);
-        return null;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteDummy(@PathVariable Long id){
+        dummyService.deleteDummy(id);
+        return ResponseEntity.ok("El dummy id " + id + " a sido eliminado con exito");
     }
 
 }

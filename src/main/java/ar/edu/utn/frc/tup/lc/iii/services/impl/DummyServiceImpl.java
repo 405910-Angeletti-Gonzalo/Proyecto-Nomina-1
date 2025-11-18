@@ -8,7 +8,11 @@ import ar.edu.utn.frc.tup.lc.iii.services.DummyService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +63,8 @@ private DummyRepository dummyRepository;
 
     @Override
     public void deleteDummy(Long id) {
-
+        DummyEntitie dummy = dummyRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El dummy no existe"));
+        dummyRepository.delete(dummy);
     }
 }
