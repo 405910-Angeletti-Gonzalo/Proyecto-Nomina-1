@@ -67,6 +67,7 @@ private DummyRepository dummyRepository;
     @Override
     public Dummy getByAllDummy(Dummy dummy) {
         Long id =  dummy.getId();
+        int aux = 0;
         if (id == null){
             List<DummyEntitie>  dummyEntities = dummyRepository.findAll();
             DummyEntitie dummyEntitie;
@@ -75,6 +76,14 @@ private DummyRepository dummyRepository;
                 if (Objects.equals(dummyEntitie.getDummy(), dummy.getDummy())){
                     dummy.setId(dummyEntitie.getId());
                 }
+                else {
+                    aux++;
+                }
+            }
+            if (aux == dummyEntities.size()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El dummy con dummy '" + dummy.getDummy() + "' no existe");
+            } else {
+                return dummy;
             }
         }
         else {
