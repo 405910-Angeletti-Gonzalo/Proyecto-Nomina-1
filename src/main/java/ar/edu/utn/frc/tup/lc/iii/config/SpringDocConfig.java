@@ -12,6 +12,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuración de OpenAPI/Swagger para documentar la API.
+ *
+ * - Lee propiedades desde application.properties para poblar los metadatos.
+ * - Expone un bean OpenAPI que SpringDoc usa para generar la UI de Swagger.
+ */
 @Configuration
 public class SpringDocConfig {
 
@@ -19,6 +25,9 @@ public class SpringDocConfig {
     @Value("${app.dev-name}")private String devName;
     @Value("${app.dev-email}")private String devEmail;
 
+    /**
+     * Construye el objeto OpenAPI con Info y Server a partir de propiedades.
+     */
     @Bean
     public OpenAPI openApi (
             @Value("${app.name}") String appName,
@@ -44,6 +53,9 @@ public class SpringDocConfig {
                 .addServersItem(server);
     }
 
+    /**
+     * Integra el ObjectMapper de Jackson para que SpringDoc entienda correctamente los modelos.
+     */
     @Bean
     public ModelResolver modelResolver(ObjectMapper objectMapper) {
         return new ModelResolver(objectMapper);

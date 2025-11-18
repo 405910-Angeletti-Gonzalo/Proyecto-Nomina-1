@@ -7,8 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Repositorio JPA para acceder a la persistencia de {@link DummyEntitie}.
+ * Extiende {@link JpaRepository} para obtener operaciones CRUD básicas.
+ */
 @Repository
 public interface DummyRepository extends JpaRepository<DummyEntitie, Long> {
+    /**
+     * Busca por id devolviendo Optional. Sobrescribimos para documentar.
+     */
     @Override
     Optional<DummyEntitie> findById(Long Long);
 }
